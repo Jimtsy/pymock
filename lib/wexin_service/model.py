@@ -90,7 +90,7 @@ def new_get_user_summary_response(req: WXServiceRequest):
                     cancel_user=new_users-10 if new_users-5 >=0 else 0
                 )
                 result.append(b)
-    return Response(result)
+    return Response(dict(list=result))
 
 
 def new_get_user_cumulate_response(req: WXServiceRequest):
@@ -117,7 +117,7 @@ def new_get_user_cumulate_response(req: WXServiceRequest):
             cumulate_user=random.randint(0, 1000)
         )
         result.append(b)
-    return Response(result)
+    return Response(dict(list=result))
 
 
 def new_get_open_ids_response():
@@ -140,14 +140,14 @@ def new_get_open_ids_response():
         counter.offset = count
         next_openid = gen_rand_str(prefix="wx", length=26)
 
-    return dict(
+    return Response(dict(
         total=total,
         count=count,
         data=dict(
             openid=[gen_rand_str(prefix="oa", length=26) for _ in range(count)],
             next_openid=next_openid
         )
-    )
+    ))
 
 
 def new_get_user_info_response(req: WXServiceRequest):
@@ -176,6 +176,6 @@ def new_get_user_info_response(req: WXServiceRequest):
             qr_scene_str="qr_scene_str"
         ) for oi in open_ids]
 
-    return Response(result)
+    return Response(dict(list=result))
 
 
