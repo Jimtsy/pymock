@@ -3,7 +3,7 @@
 import threading
 from sanic.request import Request
 from sanic.response import HTTPResponse
-from pymock.log import logger
+from log import logger
 
 lock = threading.Condition()
 

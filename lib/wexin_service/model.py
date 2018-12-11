@@ -2,9 +2,9 @@ import random
 import faker
 import time
 from datetime import datetime, timedelta
-from pymock.lib.base.response import bad_request
+from lib.base.response import bad_request
 from functools import lru_cache
-from pymock.utils import Counter, gen_rand_str
+from utils import Counter, gen_rand_str
 from .status import \
     stateWXServiceUserSources, stateWXServiceCountGenerator,  stateWXServiceSubscribe, \
     stateWXServiceSex, stateWXServiceSubscribeScene

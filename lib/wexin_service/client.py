@@ -1,9 +1,9 @@
 from sanic.request import Request
 from sanic.response import json
 
-from pymock.lib.base import RPCTreeHandler, BaseClient, is_json_rpc_request
-from pymock.lib.base.response import bad_request, fine
-from pymock.lib.wexin_service.status import __all__
+from lib.base import RPCTreeHandler, BaseClient, is_json_rpc_request
+from lib.base.response import bad_request, fine
+from lib.wexin_service.status import __all__
 from .model import WXServiceRequest, \
     new_get_user_summary_response, \
     new_get_user_cumulate_response, \

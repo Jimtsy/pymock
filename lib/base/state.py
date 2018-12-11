@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from threading import RLock
-from pymock.utils import SingletonIfSameParameters
+from utils import SingletonIfSameParameters
 from .response import bad_request
 import random
 

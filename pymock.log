@@ -1,0 +1,5 @@
+{"asctime": "2018-12-11 16:33:28,633", "threadName": "MainThread", "levelname": "INFO", "message": "_log_dir=., _log_name=pymock.log, _level=20", "lineno": 53, "filename": "log.py"}
+{"asctime": "2018-12-11 16:33:28,776", "threadName": "MainThread", "levelname": "INFO", "message": "Goin' Fast @ http://0.0.0.0:8868", "lineno": 901, "filename": "app.py"}
+{"asctime": "2018-12-11 16:33:28,786", "threadName": "MainThread", "levelname": "INFO", "message": "Starting worker [12431]", "lineno": 634, "filename": "server.py"}
+{"asctime": "2018-12-11 16:33:31,440", "threadName": "MainThread", "levelname": "INFO", "message": "Stopping worker [12431]", "lineno": 637, "filename": "server.py"}
+{"asctime": "2018-12-11 16:33:31,441", "threadName": "MainThread", "levelname": "INFO", "message": "Server Stopped", "lineno": 739, "filename": "app.py"}

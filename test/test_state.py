@@ -1,5 +1,5 @@
 import unittest
-from pymock.lib.base import new_state
+from lib.base import new_state
 
 
 class StateTestCase(unittest.TestCase):

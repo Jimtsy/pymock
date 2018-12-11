@@ -3,9 +3,9 @@
 import argparse
 from sanic import Sanic, Blueprint
 from sanic.request import Request
-from pymock.lib.wexin_service.client import wx_client
-from pymock.lib.middleware import qr_performance_middleware, response_middleware
-from pymock.lib.base import collection, fine
+from lib.wexin_service.client import wx_client
+from lib.middleware import qr_performance_middleware, response_middleware
+from lib.base import collection, fine
 
 parser = argparse.ArgumentParser()
 parser.add_argument("--host", dest="host", action="store", type=str, default="0.0.0.0",

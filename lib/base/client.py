@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from abc import ABCMeta, abstractmethod
-from pymock.utils import SingletonIfSameParameters
+from utils import SingletonIfSameParameters
 from sanic import Blueprint
 
 

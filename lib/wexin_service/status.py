@@ -1,4 +1,4 @@
-from pymock.lib.base import new_state
+from lib.base import new_state
 
 stateWXServiceUserSources = new_state("WXServiceUserSources", **{
     "0":  1,  # 代表其他合计
