@@ -2,12 +2,18 @@ import random
 import faker
 import time
 from datetime import datetime, timedelta
+from sanic.response import HTTPResponse
 from lib.base.response import bad_request
 from functools import lru_cache
 from utils import Counter, gen_rand_str
 from .status import \
     stateWXServiceUserSources, stateWXServiceCountGenerator,  stateWXServiceSubscribe, \
     stateWXServiceSex, stateWXServiceSubscribeScene
+
+try:
+    from ujson import dumps
+except BaseException:
+    from json import dumps
 
 
 counter = Counter("open_id_counter")
@@ -23,6 +29,16 @@ class WXServiceRequest:
         self.openIds = openIds
 
 
+class Response(HTTPResponse):
+    def __init__(self, result):
+        body = dict(
+            jsonrpc="2.0",
+            id=0,
+            result=result
+        )
+        super().__init__(body=dumps(body), content_type="application/json")
+
+
 @lru_cache()
 def _response_date(begin_date, end_date):
     days = datetime.strptime(end_date, "%Y-%m-%d") - datetime.strptime(begin_date, "%Y-%m-%d")
@@ -32,7 +48,6 @@ def _response_date(begin_date, end_date):
     resp_days = []
     add = 0
     while True:
-        print(add)
         up_to = datetime.strptime(begin_date, "%Y-%m-%d") + timedelta(days=add)
         if add >= 7:
             break
@@ -58,7 +73,7 @@ def new_get_user_summary_response(req: WXServiceRequest):
         return bad_request(msg="lack of necessary parameters")
 
     resp_days = _response_date(begin_date, end_date)
-    resp = []
+    result = []
     for day in resp_days:
         _source_cached = []
         for _ in range(3):
@@ -74,8 +89,8 @@ def new_get_user_summary_response(req: WXServiceRequest):
                     new_user=new_users,
                     cancel_user=new_users-10 if new_users-5 >=0 else 0
                 )
-                resp.append(b)
-    return resp
+                result.append(b)
+    return Response(result)
 
 
 def new_get_user_cumulate_response(req: WXServiceRequest):
@@ -94,15 +109,15 @@ def new_get_user_cumulate_response(req: WXServiceRequest):
         return bad_request("时间错误: begin={}, end={}".format(begin_date, end_date))
 
     resp_days = _response_date(begin_date, end_date)
-    resp = []
+    result = []
 
     for day in resp_days:
         b = dict(
             ref_date=day,
             cumulate_user=random.randint(0, 1000)
         )
-        resp.append(b)
-    return resp
+        result.append(b)
+    return Response(result)
 
 
 def new_get_open_ids_response():
@@ -141,7 +156,7 @@ def new_get_user_info_response(req: WXServiceRequest):
     :return:
     """
     open_ids = req.openIds
-    response = [dict(
+    result = [dict(
             subscribe=stateWXServiceSubscribe.pick_up(),
             openid=oi,
             nickname=fake.name(),
@@ -161,6 +176,6 @@ def new_get_user_info_response(req: WXServiceRequest):
             qr_scene_str="qr_scene_str"
         ) for oi in open_ids]
 
-    return response
+    return Response(result)
 
 

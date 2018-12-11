@@ -29,7 +29,7 @@ class _FansJSONRPCHandler(RPCTreeHandler):
         :return:
         """
         req = WXServiceRequest(**req_param)
-        return json(new_get_user_summary_response(req))
+        return new_get_user_summary_response(req)
 
     def getUserCumulate(self, req_param):
         """ 获取用户累计统计数据
@@ -38,7 +38,7 @@ class _FansJSONRPCHandler(RPCTreeHandler):
         :return:
         """
         req = WXServiceRequest(**req_param)
-        return json(new_get_user_cumulate_response(req))
+        return new_get_user_cumulate_response(req)
 
     def getOpenIds(self, req_param):
         """ 获取openid列表
@@ -47,7 +47,7 @@ class _FansJSONRPCHandler(RPCTreeHandler):
         :return:
         """
         # req = WXServiceRequest(**req_param)
-        return json(new_get_open_ids_response())
+        return new_get_open_ids_response()
 
     def getUserInfos(self, req_param):
         """ 获取粉丝详情
@@ -55,7 +55,7 @@ class _FansJSONRPCHandler(RPCTreeHandler):
         :return:
         """
         req = WXServiceRequest(**req_param)
-        return json(new_get_user_info_response(req))
+        return new_get_user_info_response(req)
 
 
 async def handle_rpc_request(req: Request):
@@ -88,7 +88,7 @@ class WXServiceClient(BaseClient):
         return __all__
 
 wx_client = WXServiceClient("微信", "/wx_service")
-wx_client.add_route(handle_rpc_request, uri="/rpc/datacude/", methods=["POST"])
+wx_client.add_route(handle_rpc_request, uri="/rpc/datacube/", methods=["POST"])
 wx_client.add_route(handle_rpc_request, uri="/rpc/user/", methods=["POST"])
 
 
