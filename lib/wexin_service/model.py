@@ -1,6 +1,7 @@
 import random
 import faker
 import time
+import queue
 from datetime import datetime, timedelta
 from sanic.response import HTTPResponse
 from lib.base.response import bad_request
@@ -54,10 +55,10 @@ def _response_date(begin_date, end_date):
             break
         else:
             if up_to == datetime.strptime(end_date, "%Y-%m-%d"):
-                resp_days.append(up_to.__format__("%Y-%m-%d"))
+                resp_days.append(int(up_to.timestamp() * 1000))
                 break
             else:
-                resp_days.append(up_to.__format__("%Y-%m-%d"))
+                resp_days.append(int(up_to.timestamp() * 1000))
                 add += 1
     return resp_days
 
@@ -75,22 +76,30 @@ def new_get_user_summary_response(req: WXServiceRequest):
 
     resp_days = _response_date(begin_date, end_date)
     result = []
+
+    source_list = collection.config.get("source_list", None)
+    new_users = collection.config.get("new_users", random.randint(0, 100))
+    cancel_users = collection.config.get("cancel_users", new_users-10 if new_users-5 >=0 else 0)
+
     for day in resp_days:
-        _source_cached = []
-        for _ in range(3):
-            new_users = random.randint(0, 100)
-            source = stateWXServiceUserSources.pick_up()
-            if source in _source_cached:
-                continue
-            else:
-                _source_cached.append(source)
-                b = dict(
-                    ref_date=day,
-                    user_source=stateWXServiceUserSources.pick_up(),
-                    new_user=new_users,
-                    cancel_user=new_users-10 if new_users-5 >=0 else 0
-                )
-                result.append(b)
+        if source_list:
+            result = [dict(refDate=day, userSource=source, newUser=new_users, cancelUser=cancel_users)
+                      for source in source_list]
+        else:
+            _source_cached = []
+            for _ in range(3):
+                source = stateWXServiceUserSources.pick_up()
+                if source in _source_cached:
+                    continue
+                else:
+                    _source_cached.append(source)
+                    b = dict(
+                        refDate=day,
+                        userSource=source,
+                        newUser=new_users,
+                        cancelUser=cancel_users
+                    )
+                    result.append(b)
     return Response(dict(list=result))
 
 
@@ -112,10 +121,11 @@ def new_get_user_cumulate_response(req: WXServiceRequest):
     resp_days = _response_date(begin_date, end_date)
     result = []
 
+    cumulate_user = collection.config.get("cumulate_user", random.randint(0, 1000))
     for day in resp_days:
         b = dict(
-            ref_date=day,
-            cumulate_user=random.randint(0, 1000)
+            refDate=day,
+            cumulateUser=cumulate_user
         )
         result.append(b)
     return Response(dict(list=result))
@@ -126,7 +136,7 @@ def new_get_open_ids_response():
     https://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1421140840&token=&lang=zh_CN
     :return:
     """
-    total = collection.config.get("open_id_counts", 100)
+    total = collection.config.get("open_id_counts", 5)
 
     if counter.offset >= total:
         count = 0
@@ -147,7 +157,7 @@ def new_get_open_ids_response():
         count=count,
         data=dict(
             openid=[gen_rand_str(prefix="xxx", length=26) for _ in range(count)],
-            next_openid=next_openid
+            nextOpenid=next_openid
         )
     ))
 
@@ -168,14 +178,14 @@ def new_get_user_info_response(req: WXServiceRequest):
             province=fake.province(),
             language="zh_CN",
             headimgurl="http://thirdwx.qlogo.cn/mmopen/g3MonUZtNHkdmzicIlibx6iaFqAc56vxLSUfpb6n5WKSYVY0ChQKkiaJSgQ1dZuTOgvLLrhJbERQQ4eMsv84eavHiaiceqxibJxCfHe/0",
-            subscribe_time=int(time.time()),
+            subscribeTime=int(time.time()),
             unionid="o6_bmasdasdsad6_2sgVt7hMZOPfL",
             remark="",
             groupid=0,
-            tagid_list=[128],
+            tagidList=[128],
             subscribe_scene=stateWXServiceSubscribeScene.pick_up(),
-            qr_scene=98765,
-            qr_scene_str="qr_scene_str"
+            qrScene=98765,
+            qrScene_str="qr_scene_str"
         ) for oi in open_ids]
 
     return Response(dict(list=result))

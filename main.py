@@ -10,7 +10,7 @@ from lib.base import collection, fine
 parser = argparse.ArgumentParser()
 parser.add_argument("--host", dest="host", action="store", type=str, default="0.0.0.0",
                     help="host")
-parser.add_argument("--port", dest="port", action="store", type=int, default=8868,
+parser.add_argument("--port", dest="port", action="store", type=int, default=8866,
                     help="port")
 parser.add_argument("--show_response", dest="show_response", action="store", type=bool, default=True,
                     help="是否打开response打印信息")
