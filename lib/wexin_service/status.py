@@ -25,12 +25,6 @@ stateWXServiceSubscribeScene = new_state("WXServiceSubscribeScene", **{
 })
 
 
-stateWXServiceCountGenerator = new_state("WXServiceCountGenerator", **{
-    "max": 0,
-    "random": 10,
-})
-
-
 stateWXServiceSubscribe = new_state("WXServiceSubscribe", **{
     "1": 10,  # openid订阅了公众号
     "0": 1,  # openid未订阅公众号
@@ -45,7 +39,6 @@ stateWXServiceSex = new_state("WXServiceSex", **{
 
 __all__ = (
     stateWXServiceUserSources,
-    stateWXServiceCountGenerator,
     stateWXServiceSubscribe,
     stateWXServiceSex,
     stateWXServiceSubscribeScene

@@ -9,7 +9,7 @@ from lib.base.state import collection
 from functools import lru_cache
 from utils import Counter, gen_rand_str
 from .status import \
-    stateWXServiceUserSources, stateWXServiceCountGenerator,  stateWXServiceSubscribe, \
+    stateWXServiceUserSources, stateWXServiceSubscribe, \
     stateWXServiceSex, stateWXServiceSubscribeScene
 
 try:
@@ -143,12 +143,8 @@ def new_get_open_ids_response():
         counter.offset = 0
         next_openid = ""
     else:
-        way = stateWXServiceCountGenerator.pick_up()
-        if way == "max":
-            count = 10000 if total - counter.offset >= 10000 else total - counter.offset
-        else:
-            count = random.randint(1000, 10000)
-            count = count if total - counter.offset >= count else total - counter.offset
+        count = random.randint(1000, 10000)
+        count = count if total - counter.offset >= count else total - counter.offset
         counter.offset = count
         next_openid = gen_rand_str(prefix="wx", length=26)
 
