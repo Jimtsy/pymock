@@ -36,8 +36,21 @@ async def set_ratio_of_val(req: Request, state, val, weight):
 
 
 @common_blueprint.route("/whitelist/<state>/<val>/", methods=["GET"])
-async def whitelist(req:Request, state, val):
+async def whitelist(req: Request, state, val):
     return fine(result=collection.whitelist(state, val))
+
+
+@common_blueprint.route("/config", methods=["POST"])
+async def config(req: Request):
+    """
+    {
+       "open_id_counts": 100,
+       "others": others
+    }
+    :param req:
+    :return:
+    """
+    return fine(result=collection.set_config(**req.json))
 
 
 def main():

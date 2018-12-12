@@ -4,6 +4,7 @@ import time
 from datetime import datetime, timedelta
 from sanic.response import HTTPResponse
 from lib.base.response import bad_request
+from lib.base.state import collection
 from functools import lru_cache
 from utils import Counter, gen_rand_str
 from .status import \
@@ -125,7 +126,7 @@ def new_get_open_ids_response():
     https://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1421140840&token=&lang=zh_CN
     :return:
     """
-    total = 20000
+    total = collection.config.get("open_id_counts", 100)
 
     if counter.offset >= total:
         count = 0

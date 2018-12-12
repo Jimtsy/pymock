@@ -2,6 +2,7 @@
 from threading import RLock
 from utils import SingletonIfSameParameters
 from .response import bad_request
+from log import logger
 import random
 
 
@@ -83,6 +84,7 @@ class StateCollection(metaclass=SingletonIfSameParameters):
     def __init__(self):
         self._collection = {}
         self.lock = RLock()
+        self._config = {}
 
     def __check_exist(self, state_name):
         if state_name not in self._collection:
@@ -122,6 +124,18 @@ class StateCollection(metaclass=SingletonIfSameParameters):
         state = self._collection[state_name]
         state.set_whitelist(val=val)
         return {"distribution": state.distribution}
+
+    @property
+    def config(self):
+        return self._config
+
+    def set_config(self, **kwargs):
+        self.lock.acquire()
+        if kwargs.get("clear", False):
+            self._config = {}
+        self._config = {**self._config, **kwargs}
+        self.lock.release()
+        return self._config
 
 
 def new_state(name, **kwargs):

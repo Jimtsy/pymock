@@ -21,7 +21,7 @@ stateWXServiceSubscribeScene = new_state("WXServiceSubscribeScene", **{
     "ADD_SCENE_QR_CODE": 1,  # 代表扫描二维码
     "ADD_SCENE_PROFILE_ITEM": 1,  # 代表图文页右上角菜单
     "ADD_SCENE_PAID": 5,  # 代表支付后关注（在支付完成页
-    "ADD_SCENEPROFILE": 1,  #  LINK 图文页内名称点击
+    "ADD_SCENEPROFILE": 1,  # LINK 图文页内名称点击
 })
 
 
