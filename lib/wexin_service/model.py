@@ -129,6 +129,7 @@ def new_get_open_ids_response():
 
     if counter.offset >= total:
         count = 0
+        counter.offset = 0
         next_openid = ""
     else:
         way = stateWXServiceCountGenerator.pick_up()
@@ -144,7 +145,7 @@ def new_get_open_ids_response():
         total=total,
         count=count,
         data=dict(
-            openid=[gen_rand_str(prefix="oa", length=26) for _ in range(count)],
+            openid=[gen_rand_str(prefix="xxx", length=26) for _ in range(count)],
             next_openid=next_openid
         )
     ))
