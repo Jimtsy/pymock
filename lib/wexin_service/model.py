@@ -93,7 +93,7 @@ def new_get_user_summary_response(req: WXServiceRequest):
                 new_users = int(new_users - 1)
                 cancel_users = 0 if (cancel_users - 1) < 0 else cancel_users - 1
 
-                source = stateWXServiceUserSources.pick_up()
+                source = int(stateWXServiceUserSources.pick_up())
                 if source in _source_cached:
                     continue
                 else:
