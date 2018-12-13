@@ -78,8 +78,8 @@ def new_get_user_summary_response(req: WXServiceRequest):
     result = []
 
     source_list = collection.config.pop("source_list", None)
-    new_users = collection.config.pop("new_users", None)
-    cancel_users = collection.config.pop("cancel_users", None)
+    new_users = collection.config.pop("new_users", 100)
+    cancel_users = collection.config.pop("cancel_users", 50)
 
     for day in resp_days:
         if source_list:
