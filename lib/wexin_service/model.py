@@ -143,16 +143,25 @@ def new_get_open_ids_response():
     https://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1421140840&token=&lang=zh_CN
     :return:
     """
-    total = collection.config.pop("open_id_counts", 5)
+    total = collection.config.pop("open_id_counts", 10)
+    step_limited = 10000
 
-    if counter.offset >= total:
-        count = 0
-        counter.offset = 0
+    if counter.left:
+        if counter.left <= step_limited:
+            count = counter.left
+        else:
+            count = step_limited
+        counter.left = counter.left - count
+    else:
+        if total > step_limited:
+            count = step_limited
+            counter.left = total - count
+        else:
+            count = total
+
+    if counter.left == 0:
         next_openid = ""
     else:
-        count = random.randint(1000, 10000)
-        count = count if total - counter.offset >= count else total - counter.offset
-        counter.offset = count
         next_openid = gen_rand_str(prefix="wx", length=26)
 
     return Response(dict(

@@ -29,13 +29,27 @@ class Counter(metaclass=SingletonIfSameParameters):
         self.name = name
         self.lock = threading.RLock()
         self._offset = 0
+        self._left = 0
+
+    @property
+    def left(self):
+        return self._left
+
+    @left.setter
+    def left(self, l):
+        self._left = l
 
     @property
     def offset(self):
         return self._offset
 
     @offset.setter
-    def offset(self, steps=1):
+    def offset(self, steps):
+        self.lock.acquire()
+        self._offset = steps
+        self.lock.release()
+
+    def add(self, steps=1):
         self.lock.acquire()
         self._offset += steps
         self.lock.release()
