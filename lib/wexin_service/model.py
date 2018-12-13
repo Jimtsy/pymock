@@ -195,11 +195,11 @@ def new_get_user_info_response(req: WXServiceRequest):
             remark="",
             groupid=0,
             tagidList=[128],
-            subscribe_scene=stateWXServiceSubscribeScene.pick_up(),
+            subscribeScene=stateWXServiceSubscribeScene.pick_up(),
             qrScene=98765,
-            qrScene_str="qr_scene_str"
+            qrSceneStr="qr_scene_str"
         ) for oi in open_ids]
 
-    return Response(dict(list=result))
+    return Response(dict(userInfoList=result))
 
 
