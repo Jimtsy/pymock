@@ -78,10 +78,12 @@ def new_get_user_summary_response(req: WXServiceRequest):
     result = []
 
     source_list = collection.config.get("source_list", None)
-    new_users = collection.config.get("new_users", random.randint(0, 100))
-    cancel_users = collection.config.get("cancel_users", new_users-10 if new_users-5 >=0 else 0)
+    # new_users = collection.config.get("new_users", None)
+    # cancel_users = collection.config.get("cancel_users", None)
 
     for day in resp_days:
+        new_users =  random.randint(0, 100)
+        cancel_users = new_users-5 if new_users-5 >= 0 else 0
         if source_list:
             result = [dict(refDate=day, userSource=source, newUser=new_users, cancelUser=cancel_users)
                       for source in source_list]
@@ -121,8 +123,9 @@ def new_get_user_cumulate_response(req: WXServiceRequest):
     resp_days = _response_date(begin_date, end_date)
     result = []
 
-    cumulate_user = collection.config.get("cumulate_user", random.randint(0, 1000))
+
     for day in resp_days:
+        cumulate_user = random.randint(0, 1000)
         b = dict(
             refDate=day,
             cumulateUser=cumulate_user
