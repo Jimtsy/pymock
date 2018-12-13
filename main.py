@@ -4,7 +4,7 @@ import argparse
 from sanic import Sanic, Blueprint
 from sanic.request import Request
 from lib.wexin_service.client import wx_client
-from lib.middleware import qr_performance_middleware, response_middleware
+from lib.middleware import qr_performance_middleware, response_middleware, request_middleware
 from lib.base import collection, fine
 
 parser = argparse.ArgumentParser()
@@ -14,6 +14,8 @@ parser.add_argument("--port", dest="port", action="store", type=int, default=886
                     help="port")
 parser.add_argument("--show_response", dest="show_response", action="store", type=bool, default=True,
                     help="是否打开response打印信息")
+parser.add_argument("--show_request", dest="show_request", action="store", type=bool, default=True,
+                    help="是否打开request打印信息")
 parser.add_argument("--load_performance_middleware", dest="load_qr_performance_middleware",
                     action="store", type=bool, default=False,
                     help="是否需要加载门店码全链路测试中间件")
@@ -66,6 +68,9 @@ def main():
 
     if args.show_response:
         sc.register_middleware(response_middleware, attach_to="response")
+
+    if args.show_request:
+        sc.register_middleware(request_middleware, attach_to="request")
 
     sc.run(host=args.host, port=args.port)
 
