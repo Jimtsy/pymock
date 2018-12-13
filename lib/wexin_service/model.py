@@ -77,7 +77,7 @@ def new_get_user_summary_response(req: WXServiceRequest):
     resp_days = _response_date(begin_date, end_date)
     result = []
 
-    source_list = collection.config.pop("source_list", [1, 2,3 ,4])
+    source_list = collection.config.pop("source_list", None)
     new_users = collection.config.pop("new_users", 100)
     cancel_users = collection.config.pop("cancel_users", 50)
 
