@@ -21,4 +21,4 @@ async def response_middleware(req: Request, response: HTTPResponse):
 
 
 async def request_middleware(req: Request):
-    logger.info("response - body: {}".format(req.json()))
+    logger.info("response - body: {}".format(req.json))
