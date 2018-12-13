@@ -77,27 +77,27 @@ def new_get_user_summary_response(req: WXServiceRequest):
     resp_days = _response_date(begin_date, end_date)
     result = []
 
-    source_list = collection.config.pop("source_list", None)
+    source_list = collection.config.pop("source_list", [1, 2,3 ,4])
     new_users = collection.config.pop("new_users", 100)
     cancel_users = collection.config.pop("cancel_users", 50)
 
     for day in resp_days:
         if source_list:
-            new_users = int(new_users - 1)
-            cancel_users = 0 if (cancel_users - 1) < 0 else cancel_users - 1
-            result += [dict(refDate=day, userSource=source, newUser=new_users, cancelUser=cancel_users)
-                       for source in source_list]
+            for source in source_list:
+                new_users = new_users - 1 if new_users -1 > 0 else 1
+                cancel_users = 0 if (cancel_users - 1) < 0 else cancel_users - 1
+                b = dict(refDate=day, userSource=source, newUser=new_users, cancelUser=cancel_users)
+                result.append(b)
         else:
             _source_cached = []
             for _ in range(3):
-                new_users = int(new_users - 1)
-                cancel_users = 0 if (cancel_users - 1) < 0 else cancel_users - 1
-
                 source = int(stateWXServiceUserSources.pick_up())
                 if source in _source_cached:
                     continue
                 else:
                     _source_cached.append(source)
+                    new_users = int(new_users - 1)
+                    cancel_users = 0 if (cancel_users - 1) < 0 else cancel_users - 1
                     b = dict(
                         refDate=day,
                         userSource=source,
