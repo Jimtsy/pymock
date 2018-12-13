@@ -48,7 +48,7 @@ def _response_date(begin_date, end_date):
         return bad_request("时间错误: begin={}, end={}".format(begin_date, end_date))
 
     resp_days = []
-    add = 0
+    add = 1
     while True:
         up_to = datetime.strptime(begin_date, "%Y-%m-%d") + timedelta(days=add)
         if add >= 7:
@@ -85,8 +85,8 @@ def new_get_user_summary_response(req: WXServiceRequest):
         if source_list:
             new_users = int(new_users - 1)
             cancel_users = 0 if (cancel_users - 1) < 0 else cancel_users - 1
-            result = [dict(refDate=day, userSource=source, newUser=new_users, cancelUser=cancel_users)
-                      for source in source_list]
+            result += [dict(refDate=day, userSource=source, newUser=new_users, cancelUser=cancel_users)
+                       for source in source_list]
         else:
             _source_cached = []
             for _ in range(3):

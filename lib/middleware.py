@@ -17,8 +17,8 @@ async def qr_performance_middleware(req: Request):
     print(req.headers)
 
 async def response_middleware(req: Request, response: HTTPResponse):
-    logger.info("response - body: {}".format(str(response.body, encoding="utf-8")))
+    logger.info("response -  %s" % str(response.body, encoding="utf-8"))
 
 
 async def request_middleware(req: Request):
-    logger.info("request - body: {}".format(req.json))
+    logger.info("request - {}".format(req.json))
