@@ -126,10 +126,10 @@ def new_get_user_cumulate_response(req: WXServiceRequest):
     resp_days = _response_date(begin_date, end_date)
     result = []
 
-    cancel_users = collection.config.pop("cancel_users", None)
+    cumulate_user = collection.config.pop("cumulate_user", None)
 
     for day in resp_days:
-        cumulate_user = cancel_users if cancel_users is not None else random.randint(0, 1000)
+        cumulate_user = cumulate_user if cumulate_user is not None else random.randint(0, 1000)
         b = dict(
             refDate=day,
             cumulateUser=cumulate_user
