@@ -143,7 +143,7 @@ def new_get_open_ids_response():
     https://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1421140840&token=&lang=zh_CN
     :return:
     """
-    total = collection.config.pop("open_id_counts", 10)
+    total = collection.config.get("open_id_counts", 1)
     step_limited = 10000
 
     if counter.left:
